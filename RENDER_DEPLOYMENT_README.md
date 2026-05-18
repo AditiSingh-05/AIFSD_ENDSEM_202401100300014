@@ -78,9 +78,9 @@ Expected output:
 
 ```text
 Name: employee-performance-client
-Root Directory: . (leave empty or use .)
-Build Command: npm install --workspace client && npm run build --workspace client
-Publish Directory: client/dist
+Root Directory: client
+Build Command: npm install && npm run build
+Publish Directory: dist
 ```
 
 5. Add frontend environment variable:
