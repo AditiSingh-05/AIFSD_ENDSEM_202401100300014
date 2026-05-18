@@ -351,13 +351,13 @@ kbd {
 
 .content-grid {
   display: grid;
-  grid-template-columns: minmax(620px, 1fr) minmax(520px, 560px);
+  grid-template-columns: minmax(0, 1fr) minmax(500px, 540px);
   gap: 14px;
   padding: 16px 18px 28px;
 }
 
 .content-grid.ai-focus {
-  grid-template-columns: minmax(620px, 1fr) minmax(520px, 560px);
+  grid-template-columns: minmax(0, 1fr) minmax(500px, 540px);
 }
 
 .left-column,
@@ -370,11 +370,13 @@ kbd {
 
 .left-column {
   overflow: hidden;
+  position: relative;
+  z-index: 1;
 }
 
 .right-column {
   position: relative;
-  z-index: 2;
+  z-index: 1;
 }
 
 .panel,
@@ -410,7 +412,7 @@ kbd {
 
 .form-grid {
   display: grid;
-  grid-template-columns: repeat(4, minmax(0, 1fr));
+  grid-template-columns: repeat(4, minmax(150px, 1fr));
   gap: 18px;
 }
 
@@ -763,6 +765,18 @@ th input[type="checkbox"] {
   background: white;
 }
 
+@media (max-width: 1680px) {
+  .content-grid,
+  .content-grid.ai-focus {
+    grid-template-columns: 1fr;
+  }
+
+  .recommendation-panel {
+    width: 100%;
+    justify-self: stretch;
+  }
+}
+
 .metric-card {
   display: flex;
   align-items: center;
@@ -1104,7 +1118,7 @@ th input[type="checkbox"] {
   }
 
   .right-column {
-    grid-row: 1;
+    grid-row: auto;
   }
 
   .recommendation-panel {
