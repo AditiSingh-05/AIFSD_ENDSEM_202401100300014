@@ -2,11 +2,9 @@ import React, { useCallback, useEffect, useMemo, useState } from "react";
 import { Link, Navigate, Route, Routes, useLocation, useNavigate } from "react-router-dom";
 import {
   BarChart3,
-  Bell,
   BookOpen,
   BriefcaseBusiness,
   CheckCircle2,
-  ChevronDown,
   ChevronsLeft,
   ChevronsRight,
   Edit3,
@@ -295,7 +293,6 @@ function Sidebar({ user, logout }) {
             <strong>{user?.name || "Admin User"}</strong>
             <span>{user?.email || "admin@talentiq.com"}</span>
           </div>
-          <ChevronDown size={14} />
         </div>
         <button className="collapse-button" onClick={logout} type="button">
           <LogOut size={18} />
@@ -326,17 +323,12 @@ function Topbar({ user, globalSearch, setGlobalSearch, title }) {
           />
           <kbd>⌘K</kbd>
         </label>
-        <button className="icon-button notification" type="button">
-          <Bell size={19} />
-          <span>3</span>
-        </button>
         <div className="user-chip light">
           <div className="avatar photo">{initials(user?.name)}</div>
           <div>
             <strong>{user?.name || "Admin User"}</strong>
             <span>Administrator</span>
           </div>
-          <ChevronDown size={14} />
         </div>
       </div>
     </header>

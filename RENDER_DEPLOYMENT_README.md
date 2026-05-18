@@ -2,47 +2,27 @@
 
 This guide explains how to deploy the MERN Employee Performance Analytics app on Render.
 
-## What You Will Deploy
+## Services
 
 Deploy two Render services:
 
-- Backend: Node.js web service from `server/`
-- Frontend: Static site from `client/`
+- Backend: Node.js Web Service from `server/`
+- Frontend: Static Site from `client/`
 
 MongoDB stays on MongoDB Atlas.
 
-## 1. Prepare MongoDB Atlas
+## Backend Web Service
 
-1. Open MongoDB Atlas.
-2. Use your existing cluster.
-3. Allow Render to connect:
-   - For simple exam deployment, add `0.0.0.0/0` to Network Access.
-   - For production, restrict this to trusted IPs.
-4. Copy your connection string.
-
-Example:
+Use these settings:
 
 ```text
-mongodb+srv://USERNAME:PASSWORD@cluster.mongodb.net/?appName=aiafsd
-```
-
-## 2. Deploy Backend on Render
-
-1. Go to Render.
-2. Click **New +**.
-3. Select **Web Service**.
-4. Connect your GitHub repository.
-5. Use these settings:
-
-```text
-Name: employee-performance-api
-Root Directory: . (leave empty or use .)
+Root Directory: server
 Environment: Node
-Build Command: npm install --workspace server
-Start Command: node server/src/index.js
+Build Command: npm install
+Start Command: npm start
 ```
 
-6. Add environment variables:
+Add environment variables:
 
 ```env
 MONGODB_URI=your_mongodb_connection_string
@@ -53,102 +33,65 @@ OPENROUTER_MODEL=openai/gpt-5.2
 CLIENT_URL=https://your-frontend-name.onrender.com
 ```
 
-7. Deploy the service.
-8. After deployment, test:
+Health check:
 
 ```text
 https://your-backend-name.onrender.com/api/health
 ```
 
-Expected output:
+## Frontend Static Site
 
-```json
-{
-  "ok": true,
-  "service": "employee-performance-api"
-}
-```
-
-## 3. Deploy Frontend on Render
-
-1. Click **New +**.
-2. Select **Static Site**.
-3. Connect the same GitHub repository.
-4. Use these settings:
+Use these settings:
 
 ```text
-Name: employee-performance-client
 Root Directory: client
 Build Command: npm install && npm run build
 Publish Directory: dist
 ```
 
-5. Add frontend environment variable (critical - must include /api):
+Add frontend environment variable:
 
 ```env
 VITE_API_URL=https://your-backend-name.onrender.com/api
 ```
 
-**Note:** The URL must end with `/api`. Without it, the frontend cannot reach the backend routes.
+## Direct Link / Refresh Fix
 
-6. Deploy the frontend.
-
-## 4. Update Backend CORS
-
-After the frontend URL is created, go back to the backend Render service and set:
-
-```env
-CLIENT_URL=https://your-frontend-name.onrender.com
-```
-
-Redeploy the backend after changing this value.
-
-## 5. Final Testing URLs
-
-Frontend:
+This project now creates static fallback files during `npm run build` for all frontend routes:
 
 ```text
-https://your-frontend-name.onrender.com
+/dashboard
+/employees
+/performance
+/ai
+/trainings
+/reports
+/departments
+/skills
+/users
+/roles
+/login
+/signup
 ```
 
-Backend:
+Also add Render's recommended React Router rewrite rule:
 
 ```text
-https://your-backend-name.onrender.com/api/health
+Source Path: /*
+Destination Path: /index.html
+Action: Rewrite
 ```
 
-Test these API endpoints from Postman:
+Add this in the frontend Static Site's **Redirects/Rewrites** tab.
 
-- `POST /api/auth/signup`
-- `POST /api/auth/login`
-- `GET /api/employees`
-- `POST /api/employees`
-- `POST /api/ai/recommend`
+## Final Test
 
-## Common Deployment Issues
+After redeploying, these should load directly in the browser:
 
-### CORS Error
-
-Make sure backend `CLIENT_URL` exactly matches your deployed frontend URL.
-
-### MongoDB Connection Error
-
-Check:
-
-- MongoDB username/password
-- Atlas Network Access
-- `MONGODB_URI` in Render environment variables
-
-### Frontend Cannot Call Backend
-
-Check frontend variable:
-
-```env
-VITE_API_URL=https://your-backend-name.onrender.com/api
+```text
+https://your-frontend-name.onrender.com/dashboard
+https://your-frontend-name.onrender.com/ai
+https://your-frontend-name.onrender.com/login
 ```
 
-Then redeploy the frontend.
-
-### AI Recommendation Fallback
-
-If OpenRouter fails or times out, the backend returns a local fallback recommendation so the exam demo still works.
+If direct links still fail, confirm the Render rewrite rule is saved and redeploy the frontend.
