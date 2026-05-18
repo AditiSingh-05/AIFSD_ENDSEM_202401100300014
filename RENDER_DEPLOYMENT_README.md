@@ -36,10 +36,10 @@ mongodb+srv://USERNAME:PASSWORD@cluster.mongodb.net/?appName=aiafsd
 
 ```text
 Name: employee-performance-api
-Root Directory: server
+Root Directory: . (leave empty or use .)
 Environment: Node
-Build Command: npm install
-Start Command: npm start
+Build Command: npm install --workspace server
+Start Command: npm start --workspace server
 ```
 
 6. Add environment variables:
@@ -78,9 +78,9 @@ Expected output:
 
 ```text
 Name: employee-performance-client
-Root Directory: client
-Build Command: npm install && npm run build
-Publish Directory: dist
+Root Directory: . (leave empty or use .)
+Build Command: npm install --workspace client && npm run build --workspace client
+Publish Directory: client/dist
 ```
 
 5. Add frontend environment variable:
