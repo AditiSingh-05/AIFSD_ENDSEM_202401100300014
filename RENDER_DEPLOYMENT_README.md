@@ -39,7 +39,7 @@ Name: employee-performance-api
 Root Directory: . (leave empty or use .)
 Environment: Node
 Build Command: npm install --workspace server
-Start Command: npm start --workspace server
+Start Command: node server/src/index.js
 ```
 
 6. Add environment variables:
