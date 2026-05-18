@@ -83,11 +83,13 @@ Build Command: npm install && npm run build
 Publish Directory: dist
 ```
 
-5. Add frontend environment variable:
+5. Add frontend environment variable (critical - must include /api):
 
 ```env
 VITE_API_URL=https://your-backend-name.onrender.com/api
 ```
+
+**Note:** The URL must end with `/api`. Without it, the frontend cannot reach the backend routes.
 
 6. Deploy the frontend.
 
